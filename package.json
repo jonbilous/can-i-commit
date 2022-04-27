@@ -1,0 +1,78 @@
+{
+  "name": "can-i-commit",
+  "version": "1.0.0",
+  "description": "",
+  "main": "bin/index.js",
+  "bin": {
+    "can-i-commit": "bin/index.js"
+  },
+  "scripts": {
+    "test": "vitest",
+    "test:ci": "vitest run --passWithNoTests",
+    "build": "tsc",
+    "commit": "cz",
+    "pre-commit": "npm run test:ci && npm run build",
+    "prepare": "husky install"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jonbilous/can-i-commit"
+  },
+  "author": "Jon Bilous",
+  "license": "ISC",
+  "devDependencies": {
+    "@semantic-release/changelog": "^6.0.1",
+    "@semantic-release/git": "^10.0.1",
+    "@semantic-release/npm": "^9.0.1",
+    "@types/uuid": "^8.3.4",
+    "commitizen": "^4.2.4",
+    "conventional-changelog-conventionalcommits": "^4.6.3",
+    "cz-conventional-changelog": "^3.3.0",
+    "husky": "^7.0.4",
+    "semantic-release": "^19.0.2",
+    "typescript": "^4.6.3",
+    "vite": "^2.9.5",
+    "vitest": "^0.9.3"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
+  },
+  "release": {
+    "preset": "angular",
+    "branches": [
+      "main"
+    ],
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator",
+      [
+        "@semantic-release/changelog",
+        {
+          "changelogFile": "CHANGELOG.md",
+          "changelogTitle": "# Changelog\n\nAll notable changes to this project will be documented in this file. See\n[Conventional Commits](https://conventionalcommits.org) for commit guidelines."
+        }
+      ],
+      "@semantic-release/npm",
+      [
+        "@semantic-release/git",
+        {
+          "assets": [
+            "CHANGELOG.md",
+            "package.json",
+            "package-lock.json"
+          ],
+          "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
+        }
+      ]
+    ]
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "dependencies": {
+    "commander": "^9.2.0"
+  }
+}
